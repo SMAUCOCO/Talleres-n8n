@@ -1,0 +1,390 @@
+{
+  "name": "Taller_1",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "af54c7b1-683f-4ddb-91f9-5b399c4846a8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU",
+          "mode": "list",
+          "cachedResultName": "Taller 1 n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6da3be6f-fd06-4404-aa0e-b3acdb452881",
+      "name": "Obtener ID Pokémons",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TityvTPPlhNZUNg2",
+          "name": "Google Sheets account 8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://pokeapi.co/api/v2/pokemon/{{$json.ID}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        656,
+        0
+      ],
+      "id": "35e4c0d3-adfe-4998-9256-295963633a6a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "06a5f4b3-1189-4b0b-a79a-81fae3794839",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "c7ca5b80-cfa8-4a2b-8022-a9aac53571f4",
+              "name": "type",
+              "value": "={{ $json.types[0].type.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5a5e2b99-5c42-45be-ab6a-f968af463c66",
+              "name": "sprites.front_default",
+              "value": "={{ $json.sprites.front_default }}",
+              "type": "string"
+            },
+            {
+              "id": "f038a313-c24d-4667-992c-80e27c41625b",
+              "name": "sprites.back_default",
+              "value": "={{ $json.sprites.back_default }}",
+              "type": "string"
+            },
+            {
+              "id": "a757a017-9b84-492a-b0c3-c72bceaac9fb",
+              "name": "identificador",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "6f6b310b-48c9-4414-a373-1dca97bc995e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU",
+          "mode": "list",
+          "cachedResultName": "Pokemons",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11l8o4mkILxtl_YdhTNzthn6eOb32i0gLrn-oxPRLPFU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json.identificador }}",
+            "Nombre": "={{ $json.name }}",
+            "Sprite Frontal": "={{ $json.sprites.front_default }}",
+            "Tipo": "={{ $json.type }}",
+            "Sprite Posterior": "={{ $json.sprites.back_default }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo",
+              "displayName": "Tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sprite Frontal",
+              "displayName": "Sprite Frontal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sprite Posterior",
+              "displayName": "Sprite Posterior",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "a7e44c73-da09-4fd0-a8b8-fffd21a1aacd",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TityvTPPlhNZUNg2",
+          "name": "Google Sheets account 8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d316540f-0d6c-4e77-88bd-0c05f700c546",
+              "leftValue": "={{ $json.Nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        128
+      ],
+      "id": "a162776f-33ad-4ece-b8ff-f826416694d2",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "sendTo": "samuelaleco@gmail.com",
+        "subject": "Pokemon Sheet n8n",
+        "message": "=<h1>El proceso terminó</h1>\nEl Pokémon con ID: {{ $json.ID }} y nombre: {{ $json.Nombre }} ha sido actualizado correctamente.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1472,
+        0
+      ],
+      "id": "2f12082f-da1b-47ce-ba13-76c5742444d3",
+      "name": "Send a message",
+      "webhookId": "a11a4905-ea79-4617-9451-5e741156eccb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qFuRn8TUxjx1WVVn",
+          "name": "Gmail account 9"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "ID"
+            },
+            {
+              "fieldToAggregate": "Nombre"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "dab758da-566d-46eb-8455-d4672f4b1b8d",
+      "name": "Aggregate"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Obtener ID Pokémons",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener ID Pokémons": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "13ac0bce-0a00-4c5a-953a-b1797cb64d2e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e3552c258da0afcd14cfe3071e7f310d76d67792b30c0a420920397f0f1e93fb"
+  },
+  "id": "CeZkGsD2TK7BXEzF",
+  "tags": []
+}
