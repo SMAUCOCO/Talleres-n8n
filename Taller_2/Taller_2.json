@@ -1,0 +1,194 @@
+{
+  "name": "Taller_2",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -496,
+        144
+      ],
+      "id": "6a60a82b-6cfc-439e-bba1-cbcb4bbc88f7",
+      "name": "When chat message received",
+      "webhookId": "2e9e6d8e-be63-47f0-8de9-d070e92ac520"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=## Objetivo\nEres un asistente amable, tu nombre es Ana, ayudas a buscar información en Wikipedia.\n\n## Reglas\n- Devuelve siempre respuestas de dos párrafos o menos.\n- Siempre pon las referencias de los artículos que consultas en Wikipedia.\n\n## Tools\n- Tienes una \"tool\" para conectarte a Wikipedia y traer información, puedes usarla para confirmar la información"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        144
+      ],
+      "id": "3a89c01f-2645-456a-acf7-a358a3b37afb",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        16,
+        368
+      ],
+      "id": "bbd02f18-b916-4e09-b14c-a8c7c82f8cc5",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -112,
+        368
+      ],
+      "id": "da5fd9d6-0a13-4918-802f-61b696464040",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "=llama3.2",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        368
+      ],
+      "id": "ebe84218-ef20-4b34-a9a3-7963e1802dfe",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "pb8lIf1StW1FeS1v",
+          "name": "Ollama account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        368
+      ],
+      "id": "5ff9b209-98b9-42de-aa57-de515b48df97",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "I3bmDvX5VfuASI6a",
+          "name": "Google Gemini(PaLM) Api account 7"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -656,
+        368
+      ],
+      "id": "70c70e52-9cf2-4d4c-9f15-2dbace4763ae",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "aIIvNNUSnM5VMjQq",
+          "name": "OpenAi account 6"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7da3ea7a-1b72-40a9-a6f2-5812d1c48145",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e3552c258da0afcd14cfe3071e7f310d76d67792b30c0a420920397f0f1e93fb"
+  },
+  "id": "DyF9tHOSgEgr6sc8",
+  "tags": []
+}
